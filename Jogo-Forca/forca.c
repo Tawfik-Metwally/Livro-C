@@ -18,6 +18,45 @@ int main()
         chuta();
     } while (!ganhou() && !enforcou());
     desenhaForca();
+    if (ganhou())
+    {
+        printf("\nParabens, voce ganhou!\n\n");
+
+        printf("       ___________      \n");
+        printf("      '._==_==_=_.'     \n");
+        printf("      .-\\:      /-.    \n");
+        printf("     | (|:.     |) |    \n");
+        printf("      '-|:.     |-'     \n");
+        printf("        \\::.    /      \n");
+        printf("         '::. .'        \n");
+        printf("           ) (          \n");
+        printf("         _.' '._        \n");
+        printf("        '-------'       \n\n");
+    }
+    else
+    {
+        printf("\nInfelizmente voce foi inforcado!\n");
+        printf("A palavra era **%s**\n\n", palavraSecreta);
+
+        printf("    _______________         \n");
+        printf("   /               \\       \n");
+        printf("  /                 \\      \n");
+        printf("//                   \\/\\  \n");
+        printf("\\|   XXXX     XXXX   | /   \n");
+        printf(" |   XXXX     XXXX   |/     \n");
+        printf(" |   XXX       XXX   |      \n");
+        printf(" |                   |      \n");
+        printf(" \\__      XXX      __/     \n");
+        printf("   |\\     XXX     /|       \n");
+        printf("   | |           | |        \n");
+        printf("   | I I I I I I I |        \n");
+        printf("   |  I I I I I I  |        \n");
+        printf("   \\_             _/       \n");
+        printf("     \\_         _/         \n");
+        printf("       \\_______/           \n");
+    }
+    adicionarPalavra();
+
     return 0;
 }
 
@@ -38,7 +77,7 @@ void escolhePalavra()
     if (f == 0)
     {
         printf("Banco de dados de palavras indisponivel\n\n");
-        exit(0);
+        exit(1);
     }
 
     int qtdDePalavras;
@@ -159,4 +198,40 @@ int ganhou()
 int enforcou()
 {
     return chutesErrados() >= 5;
+}
+
+void adicionarPalavra()
+{
+    char quer;
+
+    printf("Voce deseja adicionar uma nova palavra no jogo (S/N)? ");
+    scanf(" %c", &quer);
+
+    if (quer == 'S')
+    {
+        char novaPalavra[TAMANHO_PALAVRA];
+
+        printf("Digite a nova palavra: ");
+        scanf("%s", novaPalavra);
+
+        FILE *f;
+
+        f = fopen("forcaPalavras.txt", "r+");
+        if (f == 0)
+        {
+            printf("Banco de dados de palavras indisponivel\n\n");
+            exit(1);
+        }
+
+        int qtd;
+        fscanf(f, "%d", &qtd);
+        qtd++;
+        fseek(f, 0, SEEK_SET);
+        fprintf(f, "%d", qtd);
+
+        fseek(f, 0, SEEK_END);
+        fprintf(f, "\n%s", novaPalavra);
+
+        fclose(f);
+    }
 }

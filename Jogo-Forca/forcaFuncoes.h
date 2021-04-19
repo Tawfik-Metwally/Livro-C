@@ -8,3 +8,4 @@ int jaChutou(char letra);
 void chuta();
 int ganhou();
 int enforcou();
+void adicionapalavra();
