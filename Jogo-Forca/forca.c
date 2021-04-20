@@ -6,6 +6,7 @@
 
 char palavraSecreta[TAMANHO_PALAVRA], chutes[TAMANHO_PALAVRA + 6];
 int chutesDados = 0;
+int querJogar = 0;
 
 int main()
 {
@@ -17,44 +18,48 @@ int main()
         desenhaForca();
         chuta();
     } while (!ganhou() && !enforcou());
+
+    system("cls");
     desenhaForca();
+
     if (ganhou())
     {
-        printf("\nParabens, voce ganhou!\n\n");
+        printf("\n\n\t**Parabens, voce ganhou!**\n\n");
 
-        printf("       ___________      \n");
-        printf("      '._==_==_=_.'     \n");
-        printf("      .-\\:      /-.    \n");
-        printf("     | (|:.     |) |    \n");
-        printf("      '-|:.     |-'     \n");
-        printf("        \\::.    /      \n");
-        printf("         '::. .'        \n");
-        printf("           ) (          \n");
-        printf("         _.' '._        \n");
-        printf("        '-------'       \n\n");
+        printf("\t       ___________      \n");
+        printf("\t      '._==_==_=_.'     \n");
+        printf("\t      .-\\:      /-.    \n");
+        printf("\t     | (|:.     |) |    \n");
+        printf("\t      '-|:.     |-'     \n");
+        printf("\t        \\::.    /      \n");
+        printf("\t         '::. .'        \n");
+        printf("\t           ) (          \n");
+        printf("\t         _.' '._        \n");
+        printf("\t        '-------'       \n\n");
     }
     else
     {
-        printf("\nInfelizmente voce foi inforcado!\n");
-        printf("A palavra era **%s**\n\n", palavraSecreta);
+        printf("\n\n   **Infelizmente voce foi inforcado!**\n");
+        printf("\t A palavra era **%s**\n\n", palavraSecreta);
 
-        printf("    _______________         \n");
-        printf("   /               \\       \n");
-        printf("  /                 \\      \n");
-        printf("//                   \\/\\  \n");
-        printf("\\|   XXXX     XXXX   | /   \n");
-        printf(" |   XXXX     XXXX   |/     \n");
-        printf(" |   XXX       XXX   |      \n");
-        printf(" |                   |      \n");
-        printf(" \\__      XXX      __/     \n");
-        printf("   |\\     XXX     /|       \n");
-        printf("   | |           | |        \n");
-        printf("   | I I I I I I I |        \n");
-        printf("   |  I I I I I I  |        \n");
-        printf("   \\_             _/       \n");
-        printf("     \\_         _/         \n");
-        printf("       \\_______/           \n");
+        printf("\t    _______________         \n");
+        printf("\t   /               \\       \n");
+        printf("\t  /                 \\      \n");
+        printf("\t//                   \\/\\  \n");
+        printf("\t\\|   XXXX     XXXX   | /   \n");
+        printf("\t |   XXXX     XXXX   |/     \n");
+        printf("\t |   XXX       XXX   |      \n");
+        printf("\t |                   |      \n");
+        printf("\t \\__      XXX      __/     \n");
+        printf("\t   |\\     XXX     /|       \n");
+        printf("\t   | |           | |        \n");
+        printf("\t   | I I I I I I I |        \n");
+        printf("\t   |  I I I I I I  |        \n");
+        printf("\t   \\_             _/       \n");
+        printf("\t     \\_         _/         \n");
+        printf("\t       \\_______/           \n");
     }
+
     adicionarPalavra();
 
     return 0;
@@ -167,7 +172,9 @@ void chuta()
 
     printf("\n\nChute uma letra: ");
     scanf(" %c", &chute);
+
     system("cls");
+
     if (letraExiste(chute))
     {
         printf("Voce acertou! A palavra tem a letra '%c'\n", chute);
@@ -176,6 +183,7 @@ void chuta()
     {
         printf("Voce errou! A palavra nao tem a letra '%c'\n", chute);
     }
+
     /*printf("Aperte qualquer tecla e enter para continuar o jogo: \n\n");
     scanf(" %c", &continuar);*/
 
@@ -235,3 +243,4 @@ void adicionarPalavra()
         fclose(f);
     }
 }
+
