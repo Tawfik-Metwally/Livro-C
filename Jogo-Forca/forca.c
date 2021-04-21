@@ -4,9 +4,10 @@
 #include <string.h>
 #include "forcaFuncoes.h"
 
-char palavraSecreta[TAMANHO_PALAVRA], chutes[TAMANHO_PALAVRA + 6];
+char palavraSecreta[TAMANHO_PALAVRA], chutes[TAMANHO_PALAVRA + 6], letrasErradas[TAMANHO_PALAVRA + 6];
 int chutesDados = 0;
 int querJogar = 0;
+int l = 0;
 
 int main()
 {
@@ -101,11 +102,12 @@ void escolhePalavra()
 void desenhaForca()
 {
     int erros = chutesErrados();
+    letraErrada();
 
     printf("  _______       \n");
     printf(" |/      |      \n");
     printf(" |      %c%c%c     Letras erradas:\n", (erros >= 1 ? '(' : ' '), (erros >= 1 ? '_' : ' '), (erros >= 1 ? ')' : ' '));
-    printf(" |      %c%c%c  \n", (erros >= 3 ? '\\' : ' '), (erros >= 2 ? '|' : ' '), (erros >= 3 ? '/' : ' '));
+    printf(" |      %c%c%c      %s\n", (erros >= 3 ? '\\' : ' '), (erros >= 2 ? '|' : ' '), (erros >= 3 ? '/' : ' '), letrasErradas);
     printf(" |       %c     \n", (erros >= 2 ? '|' : ' '));
     printf(" |      %c %c   \n", (erros >= 4 ? '/' : ' '), (erros >= 4 ? '\\' : ' '));
     printf(" |              \n");
@@ -148,6 +150,7 @@ int letraExiste(char letra)
             return 1;
         }
     }
+
     return 0;
 }
 
@@ -184,9 +187,6 @@ void chuta()
     {
         printf("Voce errou! A palavra nao tem a letra '%c'\n", chute);
     }
-
-    /*printf("Aperte qualquer tecla e enter para continuar o jogo: \n\n");
-    scanf(" %c", &continuar);*/
 
     chutes[chutesDados] = chute;
     chutesDados++;
@@ -248,5 +248,28 @@ void adicionarPalavra()
         fprintf(f, "\n%s", novaPalavra);
 
         fclose(f);
+    }
+}
+
+void letraErrada()
+{
+    int j = 0;
+    int z = 1;
+    int k = 2;
+    for (int i = 0; i < chutesDados; i++)
+    {
+        if (!letraExiste(chutes[i]))
+        {
+            letrasErradas[j] = chutes[i];
+            j += 3;
+            if (j == 3)
+            {
+                continue;
+            }
+            letrasErradas[z] = 44;
+            letrasErradas[k] = 32;
+            z += 3;
+            k += 3;
+        }
     }
 }
