@@ -104,7 +104,7 @@ void desenhaForca()
 
     printf("  _______       \n");
     printf(" |/      |      \n");
-    printf(" |      %c%c%c  \n", (erros >= 1 ? '(' : ' '), (erros >= 1 ? '_' : ' '), (erros >= 1 ? ')' : ' '));
+    printf(" |      %c%c%c     Letras erradas:\n", (erros >= 1 ? '(' : ' '), (erros >= 1 ? '_' : ' '), (erros >= 1 ? ')' : ' '));
     printf(" |      %c%c%c  \n", (erros >= 3 ? '\\' : ' '), (erros >= 2 ? '|' : ' '), (erros >= 3 ? '/' : ' '));
     printf(" |       %c     \n", (erros >= 2 ? '|' : ' '));
     printf(" |      %c %c   \n", (erros >= 4 ? '/' : ' '), (erros >= 4 ? '\\' : ' '));
@@ -172,6 +172,7 @@ void chuta()
 
     printf("\n\nChute uma letra: ");
     scanf(" %c", &chute);
+    chute = toupper(chute);
 
     system("cls");
 
@@ -214,6 +215,7 @@ void adicionarPalavra()
 
     printf("Voce deseja adicionar uma nova palavra no jogo (S/N)? ");
     scanf(" %c", &quer);
+    quer = toupper(quer);
 
     if (quer == 'S')
     {
@@ -221,6 +223,11 @@ void adicionarPalavra()
 
         printf("Digite a nova palavra: ");
         scanf("%s", novaPalavra);
+
+        for (int i = 0; i <= strlen(novaPalavra); i++)
+        {
+            novaPalavra[i] = toupper(novaPalavra[i]);
+        }
 
         FILE *f;
 
@@ -243,4 +250,3 @@ void adicionarPalavra()
         fclose(f);
     }
 }
-
