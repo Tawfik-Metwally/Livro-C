@@ -40,7 +40,7 @@ int main()
     }
     else
     {
-        printf("\n\n   **Infelizmente voce foi inforcado!**\n");
+        printf("\n\n   **Infelizmente voce foi enforcado!**\n");
         printf("\t A palavra era **%s**\n\n", palavraSecreta);
 
         printf("\t    _______________         \n");
