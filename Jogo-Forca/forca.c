@@ -5,7 +5,7 @@
 #include "forcaFuncoes.h"
 
 char palavraSecreta[TAMANHO_PALAVRA], chutes[TAMANHO_PALAVRA + 6], letrasErradas[TAMANHO_PALAVRA + 6];
-int chutesDados = 0, op;
+int chutesDados = 0, op, tentativa;
 int querJogar = 0;
 int l = 0;
 
@@ -15,15 +15,26 @@ int main()
     do
     {
         menu();
+        chutesDados = 0;
         printf("Digite a opcao: ");
         scanf("%i", &op);
         system("cls");
+        limpaVetor();
         switch (op)
         {
         case 1:
+            tentativa = 5;
             jogar();
             break;
         case 2:
+            tentativa = 7;
+            jogar();
+            break;
+        case 3:
+            tentativa = 10;
+            jogar();
+            break;
+        case 4:
             adicionarPalavra();
             break;
         case 0:
@@ -101,7 +112,7 @@ void abertura()
 void menu()
 {
     printf("-----------------------\n");
-    printf("Menu:\n0- Sair do jogo\n1- Jogar\n2- Adicionar Palavra\n");
+    printf("Menu:\n\n0- Sair do jogo\n1- Modo dificil\n2- Modo medio\n3- Modo facil\n4- Adicionar palavra\n");
     printf("-----------------------\n");
 }
 
@@ -134,16 +145,42 @@ void desenhaForca()
 {
     int erros = chutesErrados();
     letraErrada();
-
-    printf("  _______       \n");
-    printf(" |/      |      \n");
-    printf(" |      %c%c%c     Letras erradas:\n", (erros >= 1 ? '(' : ' '), (erros >= 1 ? '_' : ' '), (erros >= 1 ? ')' : ' '));
-    printf(" |      %c%c%c      %s\n", (erros >= 3 ? '\\' : ' '), (erros >= 2 ? '|' : ' '), (erros >= 3 ? '/' : ' '), letrasErradas);
-    printf(" |       %c     \n", (erros >= 2 ? '|' : ' '));
-    printf(" |      %c %c   \n", (erros >= 4 ? '/' : ' '), (erros >= 4 ? '\\' : ' '));
-    printf(" |              \n");
-    printf("_|___           \n");
-    printf("\n");
+    if (tentativa == 5)
+    {
+        printf("  _______       \n");
+        printf(" |/      |      \n");
+        printf(" |      %c%c%c     Letras erradas:\n", (erros >= 1 ? '(' : ' '), (erros >= 1 ? '_' : ' '), (erros >= 1 ? ')' : ' '));
+        printf(" |      %c%c%c      %s\n", (erros >= 3 ? '\\' : ' '), (erros >= 2 ? '|' : ' '), (erros >= 3 ? '/' : ' '), letrasErradas);
+        printf(" |       %c     \n", (erros >= 2 ? '|' : ' '));
+        printf(" |      %c %c   \n", (erros >= 4 ? '/' : ' '), (erros >= 4 ? '\\' : ' '));
+        printf(" |              \n");
+        printf("_|___           \n");
+        printf("\n");
+    }
+    else if (tentativa == 7)
+    {
+        printf("  _______       \n");
+        printf(" |/      |      \n");
+        printf(" |      %c%c%c     Letras erradas:\n", (erros >= 1 ? '(' : ' '), (erros >= 1 ? '_' : ' '), (erros >= 1 ? ')' : ' '));
+        printf(" |      %c%c%c      %s\n", (erros >= 3 ? '\\' : ' '), (erros >= 2 ? '|' : ' '), (erros >= 4 ? '/' : ' '), letrasErradas);
+        printf(" |       %c     \n", (erros >= 2 ? '|' : ' '));
+        printf(" |      %c %c   \n", (erros >= 5 ? '/' : ' '), (erros >= 6 ? '\\' : ' '));
+        printf(" |              \n");
+        printf("_|___           \n");
+        printf("\n");
+    }
+    else
+    {
+        printf("  _______       \n");
+        printf(" |/      |      \n");
+        printf(" |      %c%c%c     Letras erradas:\n", (erros >= 1 ? '(' : ' '), (erros >= 3 ? '_' : ' '), (erros >= 2 ? ')' : ' '));
+        printf(" |      %c%c%c      %s\n", (erros >= 5 ? '\\' : ' '), (erros >= 4 ? '|' : ' '), (erros >= 6 ? '/' : ' '), letrasErradas);
+        printf(" |       %c     \n", (erros >= 7 ? '|' : ' '));
+        printf(" |      %c %c   \n", (erros >= 8 ? '/' : ' '), (erros >= 9 ? '\\' : ' '));
+        printf(" |              \n");
+        printf("_|___           \n");
+        printf("\n");
+    }
 
     for (int i = 0; i < strlen(palavraSecreta); i++)
     {
@@ -237,7 +274,7 @@ int ganhou()
 
 int enforcou()
 {
-    return chutesErrados() >= 5;
+    return chutesErrados() >= tentativa;
 }
 
 void adicionarPalavra()
@@ -303,5 +340,13 @@ void letraErrada()
             z += 3;
             k += 3;
         }
+    }
+}
+
+void limpaVetor()
+{
+    for (int i = 0; i < strlen(letrasErradas); i++)
+    {
+        letrasErradas[i] = 255;
     }
 }

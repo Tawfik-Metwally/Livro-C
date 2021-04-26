@@ -12,3 +12,4 @@ int ganhou();
 int enforcou();
 void adicionapalavra();
 void letraErrada();
+void limpaVetor();
