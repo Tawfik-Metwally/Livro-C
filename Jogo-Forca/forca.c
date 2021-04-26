@@ -5,13 +5,39 @@
 #include "forcaFuncoes.h"
 
 char palavraSecreta[TAMANHO_PALAVRA], chutes[TAMANHO_PALAVRA + 6], letrasErradas[TAMANHO_PALAVRA + 6];
-int chutesDados = 0;
+int chutesDados = 0, op;
 int querJogar = 0;
 int l = 0;
 
 int main()
 {
     abertura();
+    do
+    {
+        menu();
+        printf("Digite a opcao: ");
+        scanf("%i", &op);
+        system("cls");
+        switch (op)
+        {
+        case 1:
+            jogar();
+            break;
+        case 2:
+            adicionarPalavra();
+            break;
+        case 0:
+            break;
+        default:
+            printf("Erro! Voce nao digiou uma opcao valida!\n");
+            break;
+        }
+    } while (op != 0);
+    return 0;
+}
+
+void jogar()
+{
     escolhePalavra();
 
     do
@@ -62,8 +88,6 @@ int main()
     }
 
     adicionarPalavra();
-
-    return 0;
 }
 
 void abertura()
@@ -71,7 +95,14 @@ void abertura()
     system("cls");
     printf("\n***************************\n");
     printf("BEM-VINDO AO JOGO DA FORCA!\n");
-    printf("***************************\n\n");
+    printf("***************************\n");
+}
+
+void menu()
+{
+    printf("-----------------------\n");
+    printf("Menu:\n0- Sair do jogo\n1- Jogar\n2- Adicionar Palavra\n");
+    printf("-----------------------\n");
 }
 
 void escolhePalavra()
@@ -249,6 +280,7 @@ void adicionarPalavra()
 
         fclose(f);
     }
+    system("cls");
 }
 
 void letraErrada()
