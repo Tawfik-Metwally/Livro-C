@@ -5,7 +5,8 @@
 #include "forcaFuncoes.h"
 
 char palavraSecreta[TAMANHO_PALAVRA], chutes[TAMANHO_PALAVRA + 6], letrasErradas[TAMANHO_PALAVRA + 6];
-int chutesDados = 0, op, tentativa;
+int chutesDados = 0, tentativa;
+char op;
 int querJogar = 0;
 int l = 0;
 
@@ -17,33 +18,33 @@ int main()
         menu();
         chutesDados = 0;
         printf("Digite a opcao: ");
-        scanf("%i", &op);
+        scanf("%c", &op);
         system("cls");
         limpaVetor();
         switch (op)
         {
-        case 1:
+        case '1':
             tentativa = 5;
             jogar();
             break;
-        case 2:
+        case '2':
             tentativa = 7;
             jogar();
             break;
-        case 3:
+        case '3':
             tentativa = 10;
             jogar();
             break;
-        case 4:
+        case '4':
             adicionarPalavra();
             break;
-        case 0:
+        case '0':
             break;
         default:
             printf("Erro! Voce nao digiou uma opcao valida!\n");
             break;
         }
-    } while (op != 0);
+    } while (op != '0');
     return 0;
 }
 
