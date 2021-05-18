@@ -5,13 +5,51 @@
 #include "forcaFuncoes.h"
 
 char palavraSecreta[TAMANHO_PALAVRA], chutes[TAMANHO_PALAVRA + 6], letrasErradas[TAMANHO_PALAVRA + 6];
-int chutesDados = 0;
+int chutesDados = 0, tentativa;
+char op;
 int querJogar = 0;
 int l = 0;
 
 int main()
 {
     abertura();
+    do
+    {
+        menu();
+        chutesDados = 0;
+        printf("Digite a opcao: ");
+        scanf("%c", &op);
+        system("cls");
+        limpaVetor();
+        switch (op)
+        {
+        case '1':
+            tentativa = 5;
+            jogar();
+            break;
+        case '2':
+            tentativa = 7;
+            jogar();
+            break;
+        case '3':
+            tentativa = 10;
+            jogar();
+            break;
+        case '4':
+            adicionarPalavra();
+            break;
+        case '0':
+            break;
+        default:
+            printf("Erro! Voce nao digiou uma opcao valida!\n");
+            break;
+        }
+    } while (op != '0');
+    return 0;
+}
+
+void jogar()
+{
     escolhePalavra();
 
     do
@@ -40,7 +78,7 @@ int main()
     }
     else
     {
-        printf("\n\n   **Infelizmente voce foi inforcado!**\n");
+        printf("\n\n   **Infelizmente voce foi enforcado!**\n");
         printf("\t A palavra era **%s**\n\n", palavraSecreta);
 
         printf("\t    _______________         \n");
@@ -62,8 +100,6 @@ int main()
     }
 
     adicionarPalavra();
-
-    return 0;
 }
 
 void abertura()
@@ -71,7 +107,14 @@ void abertura()
     system("cls");
     printf("\n***************************\n");
     printf("BEM-VINDO AO JOGO DA FORCA!\n");
-    printf("***************************\n\n");
+    printf("***************************\n");
+}
+
+void menu()
+{
+    printf("-----------------------\n");
+    printf("Menu:\n\n0- Sair do jogo\n1- Modo dificil\n2- Modo medio\n3- Modo facil\n4- Adicionar palavra\n");
+    printf("-----------------------\n");
 }
 
 void escolhePalavra()
@@ -103,16 +146,42 @@ void desenhaForca()
 {
     int erros = chutesErrados();
     letraErrada();
-
-    printf("  _______       \n");
-    printf(" |/      |      \n");
-    printf(" |      %c%c%c     Letras erradas:\n", (erros >= 1 ? '(' : ' '), (erros >= 1 ? '_' : ' '), (erros >= 1 ? ')' : ' '));
-    printf(" |      %c%c%c      %s\n", (erros >= 3 ? '\\' : ' '), (erros >= 2 ? '|' : ' '), (erros >= 3 ? '/' : ' '), letrasErradas);
-    printf(" |       %c     \n", (erros >= 2 ? '|' : ' '));
-    printf(" |      %c %c   \n", (erros >= 4 ? '/' : ' '), (erros >= 4 ? '\\' : ' '));
-    printf(" |              \n");
-    printf("_|___           \n");
-    printf("\n");
+    if (tentativa == 5)
+    {
+        printf("  _______       \n");
+        printf(" |/      |      \n");
+        printf(" |      %c%c%c     Letras erradas:\n", (erros >= 1 ? '(' : ' '), (erros >= 1 ? '_' : ' '), (erros >= 1 ? ')' : ' '));
+        printf(" |      %c%c%c      %s\n", (erros >= 3 ? '\\' : ' '), (erros >= 2 ? '|' : ' '), (erros >= 3 ? '/' : ' '), letrasErradas);
+        printf(" |       %c     \n", (erros >= 2 ? '|' : ' '));
+        printf(" |      %c %c   \n", (erros >= 4 ? '/' : ' '), (erros >= 4 ? '\\' : ' '));
+        printf(" |              \n");
+        printf("_|___           \n");
+        printf("\n");
+    }
+    else if (tentativa == 7)
+    {
+        printf("  _______       \n");
+        printf(" |/      |      \n");
+        printf(" |      %c%c%c     Letras erradas:\n", (erros >= 1 ? '(' : ' '), (erros >= 1 ? '_' : ' '), (erros >= 1 ? ')' : ' '));
+        printf(" |      %c%c%c      %s\n", (erros >= 3 ? '\\' : ' '), (erros >= 2 ? '|' : ' '), (erros >= 4 ? '/' : ' '), letrasErradas);
+        printf(" |       %c     \n", (erros >= 2 ? '|' : ' '));
+        printf(" |      %c %c   \n", (erros >= 5 ? '/' : ' '), (erros >= 6 ? '\\' : ' '));
+        printf(" |              \n");
+        printf("_|___           \n");
+        printf("\n");
+    }
+    else
+    {
+        printf("  _______       \n");
+        printf(" |/      |      \n");
+        printf(" |      %c%c%c     Letras erradas:\n", (erros >= 1 ? '(' : ' '), (erros >= 3 ? '_' : ' '), (erros >= 2 ? ')' : ' '));
+        printf(" |      %c%c%c      %s\n", (erros >= 5 ? '\\' : ' '), (erros >= 4 ? '|' : ' '), (erros >= 6 ? '/' : ' '), letrasErradas);
+        printf(" |       %c     \n", (erros >= 7 ? '|' : ' '));
+        printf(" |      %c %c   \n", (erros >= 8 ? '/' : ' '), (erros >= 9 ? '\\' : ' '));
+        printf(" |              \n");
+        printf("_|___           \n");
+        printf("\n");
+    }
 
     for (int i = 0; i < strlen(palavraSecreta); i++)
     {
@@ -206,7 +275,7 @@ int ganhou()
 
 int enforcou()
 {
-    return chutesErrados() >= 5;
+    return chutesErrados() >= tentativa;
 }
 
 void adicionarPalavra()
@@ -249,6 +318,7 @@ void adicionarPalavra()
 
         fclose(f);
     }
+    system("cls");
 }
 
 void letraErrada()
@@ -271,5 +341,13 @@ void letraErrada()
             z += 3;
             k += 3;
         }
+    }
+}
+
+void limpaVetor()
+{
+    for (int i = 0; i < strlen(letrasErradas); i++)
+    {
+        letrasErradas[i] = 255;
     }
 }
