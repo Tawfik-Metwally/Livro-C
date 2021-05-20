@@ -1,4 +1,3 @@
 //Run and escape functions
-void readmap();
-void allocatemap();
-void freemap();
+void move(char);
+int finish();

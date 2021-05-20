@@ -1,62 +1,56 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "RNE_functions.h"
+#include "map_functions.h"
 
-char **map;
-int rows;
-int columns;
+MAP m;
+POSITION hero;
 
 int main()
 {
-    readmap();
+    readMap(&m);
+    searchMap(&m, &hero, '@');
 
-    for (int i = 0; i < 5; i++)
+    do
     {
-        printf("%s\n", map[i]);
-    }
+        printMap(&m);
 
-    freemap();
+        char command;
+        scanf(" %c", &command);
+
+        move(command);
+    } while (!finish());
+
+    freeMap(&m);
     return 0;
 }
 
-void readmap()
+void move(char direction)
 {
-    FILE *f;
+    m.matrix[hero.x][hero.y] = '.';
 
-    f = fopen("map.txt", "r");
-
-    if (f == 0)
+    switch (direction)
     {
-        printf("Map reading error");
-        exit(1);
-    }
-
-    fscanf(f, "%d %d", &rows, &columns);
-    allocatemap();
-
-    for (int i = 0; i < 5; i++)
-    {
-        fscanf(f, "%s", map[i]);
-    }
-
-    fclose(f);
-}
-
-void allocatemap()
-{
-    map = malloc(sizeof(char *) * rows);
-
-    for (int i = 0; i < rows; i++)
-    {
-        map[i] = malloc(sizeof(char) * columns + 1);
+    case 'a':
+        m.matrix[hero.x][hero.y - 1] = '@';
+        hero.y--;
+        break;
+    case 'd':
+        m.matrix[hero.x][hero.y + 1] = '@';
+        hero.y++;
+        break;
+    case 'w':
+        m.matrix[hero.x - 1][hero.y] = '@';
+        hero.x--;
+        break;
+    case 's':
+        m.matrix[hero.x + 1][hero.y] = '@';
+        hero.x++;
+        break;
     }
 }
 
-void freemap()
+int finish()
 {
-    for (int i = 0; i < rows; i++)
-    {
-        free(map[i]);
-    }
-    free(map);
+    return 0;
 }
