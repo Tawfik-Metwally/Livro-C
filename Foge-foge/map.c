@@ -8,7 +8,7 @@ void searchMap(MAP *m, POSITION *p, char c)
     {
         for (int j = 0; j < m->columns; i++)
         {
-            if (m->matrix[i][j] == '@')
+            if (m->matrix[i][j] == HERO)
             {
                 p->x = i;
                 p->y = j;
@@ -66,4 +66,25 @@ void printMap(MAP *m)
     {
         printf("%s\n", m->matrix[i]);
     }
+}
+
+int itsValid(MAP *m, int x, int y)
+{
+    if (x >= m->rows)
+        return 0;
+    if (y >= m->columns)
+        return 0;
+    return 1;
+}
+
+int itsEmpty(MAP *m, int x, int y)
+{
+    return m->matrix[x][y] == EMPTY;
+}
+
+void walkInMap(MAP *m, int xorigin, int yorigin, int xdestination, int ydestination)
+{
+    char character = m->matrix[xorigin][yorigin];
+    m->matrix[xdestination][ydestination] = character;
+    m->matrix[xorigin][yorigin] = EMPTY;
 }

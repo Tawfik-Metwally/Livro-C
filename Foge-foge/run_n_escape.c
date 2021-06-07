@@ -9,7 +9,7 @@ POSITION hero;
 int main()
 {
     readMap(&m);
-    searchMap(&m, &hero, '@');
+    searchMap(&m, &hero, HERO);
 
     do
     {
@@ -27,27 +27,44 @@ int main()
 
 void move(char direction)
 {
-    m.matrix[hero.x][hero.y] = '.';
+    if (!itsDirection(direction))
+        return;
+
+    int nextx = hero.x;
+    int nexty = hero.y;
 
     switch (direction)
     {
-    case 'a':
-        m.matrix[hero.x][hero.y - 1] = '@';
-        hero.y--;
+    case LEFT:
+        nexty--;
         break;
-    case 'd':
-        m.matrix[hero.x][hero.y + 1] = '@';
-        hero.y++;
+    case UP:
+        nextx--;
         break;
-    case 'w':
-        m.matrix[hero.x - 1][hero.y] = '@';
-        hero.x--;
+    case DOWN:
+        nextx++;
         break;
-    case 's':
-        m.matrix[hero.x + 1][hero.y] = '@';
-        hero.x++;
+    case RIGHT:
+        nexty++;
         break;
     }
+
+    if (!itsValid(&m, nextx, nexty))
+        return;
+    if (!itsEmpty(&m, nextx, nexty))
+        return;
+
+    walkInMap(&m, hero.x, hero.y, nextx, nexty);
+    hero.x = nextx;
+    hero.y = nexty;
+}
+
+int itsDirection(char direction)
+{
+    return direction == LEFT ||
+           direction == UP ||
+           direction == DOWN ||
+           direction == RIGHT;
 }
 
 int finish()
