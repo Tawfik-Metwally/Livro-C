@@ -1,62 +1,73 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "RNE_functions.h"
+#include "map_functions.h"
 
-char **map;
-int rows;
-int columns;
+MAP m;
+POSITION hero;
 
 int main()
 {
-    readmap();
+    readMap(&m);
+    searchMap(&m, &hero, HERO);
 
-    for (int i = 0; i < 5; i++)
+    do
     {
-        printf("%s\n", map[i]);
-    }
+        printMap(&m);
 
-    freemap();
+        char command;
+        scanf(" %c", &command);
+
+        move(command);
+    } while (!finish());
+
+    freeMap(&m);
     return 0;
 }
 
-void readmap()
+void move(char direction)
 {
-    FILE *f;
+    if (!itsDirection(direction))
+        return;
 
-    f = fopen("map.txt", "r");
+    int nextx = hero.x;
+    int nexty = hero.y;
 
-    if (f == 0)
+    switch (direction)
     {
-        printf("Map reading error");
-        exit(1);
+    case LEFT:
+        nexty--;
+        break;
+    case UP:
+        nextx--;
+        break;
+    case DOWN:
+        nextx++;
+        break;
+    case RIGHT:
+        nexty++;
+        break;
     }
 
-    fscanf(f, "%d %d", &rows, &columns);
-    allocatemap();
+    if (!itsValid(&m, nextx, nexty))
+        return;
+    if (!itsEmpty(&m, nextx, nexty))
+        return;
 
-    for (int i = 0; i < 5; i++)
-    {
-        fscanf(f, "%s", map[i]);
-    }
-
-    fclose(f);
+    walkInMap(&m, hero.x, hero.y, nextx, nexty);
+    hero.x = nextx;
+    hero.y = nexty;
 }
 
-void allocatemap()
+int itsDirection(char direction)
 {
-    map = malloc(sizeof(char *) * rows);
-
-    for (int i = 0; i < rows; i++)
-    {
-        map[i] = malloc(sizeof(char) * columns + 1);
-    }
+    return direction == LEFT ||
+           direction == UP ||
+           direction == DOWN ||
+           direction == RIGHT;
 }
 
-void freemap()
+int finish()
 {
-    for (int i = 0; i < rows; i++)
-    {
-        free(map[i]);
-    }
-    free(map);
+    return 0;
 }

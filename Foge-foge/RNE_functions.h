@@ -1,4 +1,9 @@
 //Run and escape functions
-void readmap();
-void allocatemap();
-void freemap();
+#define UP 'w'
+#define DOWN 's'
+#define RIGHT 'd'
+#define LEFT 'a'
+
+void move(char);
+int itsDirection(char);
+int finish();
