@@ -1,22 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "map_functions.h"
-
-void searchMap(MAP *m, POSITION *p, char c)
-{
-    for (int i = 0; i < m->rows; i++)
-    {
-        for (int j = 0; j < m->columns; i++)
-        {
-            if (m->matrix[i][j] == HERO)
-            {
-                p->x = i;
-                p->y = j;
-                return;
-            }
-        }
-    }
-}
+#include <string.h>
+#include "map_fun.h"
 
 void readMap(MAP *m)
 {
@@ -60,12 +45,21 @@ void freeMap(MAP *m)
     free(m->matrix);
 }
 
-void printMap(MAP *m)
+int searchMap(MAP *m, POSITION *p, char c)
 {
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < m->rows; i++)
     {
-        printf("%s\n", m->matrix[i]);
+        for (int j = 0; j < m->columns; i++)
+        {
+            if (m->matrix[i][j] == HERO)
+            {
+                p->x = i;
+                p->y = j;
+                return 1;
+            }
+        }
     }
+    return 0;
 }
 
 int itsValid(MAP *m, int x, int y)
@@ -77,9 +71,15 @@ int itsValid(MAP *m, int x, int y)
     return 1;
 }
 
-int itsEmpty(MAP *m, int x, int y)
+int itsWall(MAP *m, int x, int y)
 {
-    return m->matrix[x][y] == EMPTY;
+    return m->matrix[x][y] == VERTICAL_WALL ||
+           m->matrix[x][y] == HORIZONTAL_WALL;
+}
+
+int itsCharacter(MAP *m, char character, int x, int y)
+{
+    return m->matrix[x][y] == character;
 }
 
 void walkInMap(MAP *m, int xorigin, int yorigin, int xdestination, int ydestination)
@@ -87,4 +87,22 @@ void walkInMap(MAP *m, int xorigin, int yorigin, int xdestination, int ydestinat
     char character = m->matrix[xorigin][yorigin];
     m->matrix[xdestination][ydestination] = character;
     m->matrix[xorigin][yorigin] = EMPTY;
+}
+
+void copyMap(MAP *destin, MAP *origin)
+{
+    destin->rows = origin->rows;
+    destin->columns = origin->columns;
+    allocateMap(destin);
+    for (int i = 0; i < origin->rows; i++)
+    {
+        strcpy(destin->matrix[i], origin->matrix[i]);
+    }
+}
+
+int canWalk(MAP *m, char character, int x, int y)
+{
+    return itsValid(m, x, y) &&
+           !itsWall(m, x, y) &&
+           !itsCharacter(m, character, x, y);
 }
